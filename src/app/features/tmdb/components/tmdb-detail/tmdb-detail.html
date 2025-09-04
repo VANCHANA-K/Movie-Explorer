@@ -1,0 +1,134 @@
+@if (loading()) {
+  <div class="loading">
+    <div class="spinner"></div>
+    <p>Loading movie details...</p>
+  </div>
+} @else if (error()) {
+  <div class="error">
+    <h2>Error</h2>
+    <p>{{ error() }}</p>
+    <div class="actions">
+      <button (click)="retry()">Try Again</button>
+      <button (click)="goBack()" class="secondary">Back to Movies</button>
+    </div>
+  </div>
+} @else if (movie()) {
+  <div class="detail">
+    <div class="backdrop" [style.background-image]="'url(' + getBackdropUrl(movie()!.backdrop_path) + ')'">
+      <div class="backdrop-overlay">
+        <div class="container">
+          <button (click)="goBack()" class="back-btn">← Back</button>
+          <div class="hero">
+            <div class="poster">
+              <img [src]="getPosterUrl(movie()!.poster_path)" [alt]="movie()!.title">
+            </div>
+            <div class="info">
+              <div class="header">
+                <h1>{{ movie()!.title }}</h1>
+                <button 
+                  (click)="toggleFavorite()" 
+                  class="fav-btn"
+                  [class.favorite]="isFavorite()">
+                  {{ isFavorite() ? '★' : '☆' }}
+                </button>
+              </div>
+              
+              @if (movie()!.tagline) {
+                <p class="tagline">"{{ movie()!.tagline }}"</p>
+              }
+              
+              <div class="meta">
+                <span class="rating">⭐ {{ getRating(movie()!.vote_average) }}</span>
+                <span class="year">{{ getYear(movie()!.release_date) }}</span>
+                <span class="runtime">{{ formatRuntime(movie()!.runtime) }}</span>
+              </div>
+              
+              @if (movie()!.genres && movie()!.genres!.length > 0) {
+                <div class="genres">
+                  @for (genre of movie()!.genres; track genre.id) {
+                    <span class="genre">{{ genre.name }}</span>
+                  }
+                </div>
+              }
+              
+              @if (movie()!.overview) {
+                <div class="overview">
+                  <h3>Overview</h3>
+                  <p>{{ movie()!.overview }}</p>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="details-section">
+      <div class="container">
+        <div class="details-grid">
+          <div class="detail-item">
+            <h4>Release Date</h4>
+            <p>{{ movie()!.release_date || 'N/A' }}</p>
+          </div>
+          
+          <div class="detail-item">
+            <h4>Vote Count</h4>
+            <p>{{ movie()!.vote_count | number }}</p>
+          </div>
+          
+          <div class="detail-item">
+            <h4>Popularity</h4>
+            <p>{{ movie()!.popularity | number:'1.0-0' }}</p>
+          </div>
+          
+          <div class="detail-item">
+            <h4>Original Language</h4>
+            <p>{{ movie()!.original_language.toUpperCase() || 'N/A' }}</p>
+          </div>
+          
+          @if (movie()!.budget) {
+            <div class="detail-item">
+              <h4>Budget</h4>
+              <p>{{ formatMoney(movie()!.budget) }}</p>
+            </div>
+          }
+          
+          @if (movie()!.revenue) {
+            <div class="detail-item">
+              <h4>Revenue</h4>
+              <p>{{ formatMoney(movie()!.revenue) }}</p>
+            </div>
+          }
+          
+          @if (movie()!.production_companies && movie()!.production_companies!.length > 0) {
+            <div class="detail-item full-width">
+              <h4>Production Companies</h4>
+              <p>{{ getProductionCompanies() }}</p>
+            </div>
+          }
+          
+          @if (movie()!.production_countries && movie()!.production_countries!.length > 0) {
+            <div class="detail-item">
+              <h4>Countries</h4>
+              <p>{{ getProductionCountries() }}</p>
+            </div>
+          }
+          
+          @if (movie()!.spoken_languages && movie()!.spoken_languages!.length > 0) {
+            <div class="detail-item">
+              <h4>Languages</h4>
+              <p>{{ getSpokenLanguages() }}</p>
+            </div>
+          }
+          
+          @if (movie()!.homepage) {
+            <div class="detail-item">
+              <h4>Homepage</h4>
+              <p><a [href]="movie()!.homepage" target="_blank" rel="noopener">Visit Site</a></p>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+}

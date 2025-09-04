@@ -1,0 +1,44 @@
+<div *ngIf="loading" class="detail">
+  <div class="poster shimmer" style="aspect-ratio:2/3;border-radius:12px;"></div>
+  <div class="info">
+    <div class="line shimmer" style="width:60%;height:20px;border-radius:10px;"></div>
+    <div class="line shimmer" style="width:40%;height:14px;border-radius:8px;margin-top:8px;"></div>
+    <div class="line shimmer" style="width:90%;height:12px;border-radius:8px;margin-top:16px;"></div>
+    <div class="line shimmer" style="width:80%;height:12px;border-radius:8px;margin-top:8px;"></div>
+  </div>
+</div>
+
+<ng-container *ngIf="!loading">
+  <ng-container *ngIf="movie; else notFound">
+    <div class="detail">
+      <div class="poster">
+        <img [src]="movie!.poster" [alt]="movie!.title" />
+      </div>
+
+      <div class="info">
+        <h1>{{ movie!.title }}</h1>
+        <p class="meta">
+          {{ movie!.year }}
+          <span *ngIf="movie!.runtimeMin">• {{ movie!.runtimeMin }} min</span>
+          <span *ngIf="movie!.genres?.length">• {{ genresText() }}</span>
+        </p>
+
+        <div class="rating">Rating: <b>{{ movie!.rating }}</b></div>
+
+        <p class="overview">{{ movie!.overview }}</p>
+
+        <div class="actions">
+          <button (click)="toggleFav()">{{ isFav() ? '★ In Favorites' : '☆ Add to Favorites' }}</button>
+          <a routerLink="/movies" class="link">← Back to list</a>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</ng-container>
+
+<ng-template #notFound>
+  <div class="not-found">
+    <p>Movie not found.</p>
+    <a routerLink="/movies">Back</a>
+  </div>
+</ng-template>

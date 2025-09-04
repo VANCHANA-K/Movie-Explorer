@@ -1,0 +1,79 @@
+<div class="explore">
+  <div class="controls">
+    <div class="search-row">
+      <input 
+        type="text" 
+        [(ngModel)]="searchQueryModel" 
+        (keyup.enter)="onSearch()" 
+        placeholder="Search movies..."
+        class="search-input">
+      <button (click)="onSearch()" class="search-btn">Search</button>
+      @if (searchQuery()) {
+        <button (click)="onClear()" class="clear-btn">Clear</button>
+      }
+    </div>
+    
+    <div class="filter-row">
+      <select 
+        [value]="selectedGenre()" 
+        (change)="onGenreChange(+$any($event.target).value)"
+        class="genre-select">
+        @for (genre of genres(); track genre.id) {
+          <option [value]="genre.id">{{ genre.name }}</option>
+        }
+      </select>
+    </div>
+  </div>
+
+  @if (error()) {
+    <div class="error">
+      <p>{{ error() }}</p>
+      <button (click)="retry()">Try Again</button>
+    </div>
+  } @else {
+    <div class="grid">
+      @for (movie of displayedMovies(); track movie.id; let isLast = $last) {
+        <a 
+          [routerLink]="['/tmdb', movie.id]" 
+          class="card"
+          [attr.data-observe]="isLast && hasNextPage() ? 'true' : null"
+          #lastItem>
+          <div class="poster">
+            <img 
+              [src]="getPosterUrl(movie.poster_path)" 
+              [alt]="movie.title"
+              loading="lazy">
+            <div class="rating">⭐ {{ getRating(movie.vote_average) }}</div>
+          </div>
+          <div class="info">
+            <h3>{{ movie.title }}</h3>
+            <p class="sub">{{ getYear(movie.release_date) }}</p>
+          </div>
+        </a>
+      }
+      
+      @if (displayedMovies().length > 0) {
+        <div 
+          #scrollTrigger 
+          class="scroll-trigger">
+        </div>
+      }
+    </div>
+  }
+
+  @if (loading()) {
+    <div class="loading">
+      <div class="spinner"></div>
+      <p>Loading movies...</p>
+    </div>
+  }
+  
+  @if (displayedMovies().length === 0 && !loading() && !error()) {
+    <div class="empty">
+      <p>No movies found</p>
+      @if (searchQuery()) {
+        <button (click)="onClear()">Clear search</button>
+      }
+    </div>
+  }
+</div>

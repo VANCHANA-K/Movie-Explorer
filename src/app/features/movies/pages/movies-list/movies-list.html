@@ -1,0 +1,70 @@
+<section class="toolbar">
+  <div class="filters">
+    <label>
+      Genre
+      <select [ngModel]="genre()" (ngModelChange)="genre.set($event)">
+        <option *ngFor="let g of genres" [value]="g">{{ g }}</option>
+      </select>
+    </label>
+
+    <label>
+      Search
+      <input type="search" placeholder="Title or overview..."
+             [value]="q()" (input)="onSearchInput($any($event.target).value)" />
+    </label>
+
+    <label>
+      Sort
+      <select [ngModel]="sort()" (ngModelChange)="sort.set($event)">
+        <option value="rating_desc">Rating (high → low)</option>
+        <option value="rating_asc">Rating (low → high)</option>
+        <option value="year_desc">Year (new → old)</option>
+        <option value="year_asc">Year (old → new)</option>
+        <option value="title_asc">Title (A → Z)</option>
+        <option value="title_desc">Title (Z → A)</option>
+      </select>
+    </label>
+
+    <button (click)="searchOnline()">Search Online</button>
+  </div>
+</section>
+
+<!-- Local / Mock list (paged + infinite scroll) -->
+<section class="grid">
+  <app-movie-card *ngFor="let m of paged()" [movie]="m"></app-movie-card>
+</section>
+
+
+<div #sentinel style="height:1px;"></div>
+
+<!-- Online results -->
+<section class="online" *ngIf="q(); else tip">
+  <h3>Online results</h3>
+
+  <div *ngIf="searching()">
+    <div class="grid">
+      <app-skeleton-card *ngFor="let i of [1,2,3,4,5,6,7,8]"></app-skeleton-card>
+    </div>
+  </div>
+
+  <div *ngIf="!searching() && onlineError()" class="error">
+    <div class="error-icon">⚠️</div>
+    <div class="error-content">
+      <h4>เกิดข้อผิดพลาด</h4>
+      <p>{{ onlineError() }}</p>
+      <button (click)="searchOnline()" class="retry-btn">ลองใหม่อีกครั้ง</button>
+    </div>
+  </div>
+
+  <div *ngIf="!searching() && !onlineError() && onlineResults.length > 0" class="grid">
+    <app-movie-card *ngFor="let m of onlineResults" [movie]="m"></app-movie-card>
+  </div>
+
+  <div *ngIf="!searching() && !onlineError() && onlineResults.length === 0" class="empty">
+    <p>ไม่พบผลการค้นหา ลองใช้คำค้นหาอื่น</p>
+  </div>
+</section>
+
+<ng-template #tip>
+  <div style="padding:12px;color:var(--text-2);">Tip: พิมพ์คำค้นแล้วกด "Search Online" เพื่อทดสอบจาก OMDb</div>
+</ng-template>

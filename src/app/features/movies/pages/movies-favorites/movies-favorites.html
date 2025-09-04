@@ -1,0 +1,15 @@
+<section class="head">
+  <h2>★ Favorites</h2>
+  <a routerLink="/movies">← Back to All</a>
+</section>
+
+<section *ngIf="movies().length; else empty" class="grid">
+  <app-movie-card *ngFor="let m of movies()" [movie]="m"></app-movie-card>
+</section>
+
+<ng-template #empty>
+  <div class="empty">
+    <p>No favorites yet.</p>
+    <a routerLink="/movies">Browse movies</a>
+  </div>
+</ng-template>

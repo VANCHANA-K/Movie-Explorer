@@ -1,0 +1,27 @@
+.nav {
+  position: sticky; top: 0; z-index: 50;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 16px;
+  background: var(--bg-elev-1); border-bottom: 1px solid var(--border-1);
+
+  .brand { color: var(--text-1); font-weight: 700; text-decoration: none; margin-right: 16px; }
+  nav { display: flex; gap: 12px;
+    a { color: var(--text-2); text-decoration: none; padding: 6px 8px; border-radius: 8px;
+      &.active { background: var(--chip-bg); color: var(--text-1); }
+      &:hover { background: var(--hover); }
+    }
+  }
+  .right { display: flex; align-items: center; gap: 8px; }
+  .theme, .hamburger {
+    background: var(--bg-btn); color: var(--text-1); border: 1px solid var(--border-1);
+    border-radius: 8px; padding: 6px 10px; cursor: pointer;
+  }
+  .hamburger { display: none; }
+}
+
+@media (max-width: 720px) {
+  .nav {
+    .hamburger { display: inline-block; }
+    nav { display: none; &.open { display: flex; } }
+  }
+}

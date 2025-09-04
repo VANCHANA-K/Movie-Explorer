@@ -1,0 +1,14 @@
+<a class="card" [routerLink]="['/movies', movie.id]">
+  <div class="poster">
+    <img [src]="movie.poster" [alt]="movie.title" loading="lazy" />
+    <button class="fav-btn" (click)="toggleFav($event)" [attr.aria-pressed]="isFav()">
+      <span *ngIf="isFav(); else notFav">★</span>
+      <ng-template #notFav>☆</ng-template>
+    </button>
+    <div class="rating">{{ movie.rating }}</div>
+  </div>
+  <div class="info">
+    <h3>{{ movie.title }}</h3>
+    <p class="sub">{{ year() }} • {{ genresText() }}</p>
+  </div>
+</a>

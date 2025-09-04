@@ -1,0 +1,11 @@
+:root {
+  --bg: #0b0b0b; --bg-elev-1:#121212; --bg-btn:#161616; --hover:#1e1e1e;
+  --text-1:#eaeaea; --text-2:#c9c9c9; --border-1:#2a2a2a; --chip-bg:#1c1c1c;
+}
+:root[data-theme='light'] {
+  --bg:#f7f7f9; --bg-elev-1:#ffffff; --bg-btn:#f4f4f7; --hover:#ececf3;
+  --text-1:#1b1b1f; --text-2:#3a3a40; --border-1:#dedee6; --chip-bg:#ededef;
+}
+
+html, body { height: 100%; background: var(--bg); color: var(--text-1); }
+* { box-sizing: border-box; }

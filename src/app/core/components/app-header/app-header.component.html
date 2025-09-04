@@ -1,0 +1,17 @@
+<header class="nav">
+  <div class="left">
+    <a routerLink="/" class="brand">🎬 Movie Explorer</a>
+    <nav [class.open]="menuOpen()">
+      <a routerLink="/movies" routerLinkActive="active">All</a>
+      <a routerLink="/movies/favorites" routerLinkActive="active">Favorites</a>
+      <a routerLink="/tmdb" routerLinkActive="active">TMDB</a>
+    </nav>
+  </div>
+
+  <div class="right">
+    <button class="theme" (click)="theme.toggle()">
+      {{ theme.theme() === 'dark' ? '🌙' : '☀️' }}
+    </button>
+    <button class="hamburger" (click)="menuOpen.set(!menuOpen())">☰</button>
+  </div>
+</header>

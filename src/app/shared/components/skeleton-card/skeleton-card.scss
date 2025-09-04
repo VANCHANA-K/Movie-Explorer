@@ -1,0 +1,35 @@
+.card {
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--bg-elev-1);
+}
+
+.poster {
+  aspect-ratio: 2/3;
+  background: var(--hover);
+}
+
+.info {
+  padding: 10px 12px;
+}
+
+.line {
+  height: 12px;
+  border-radius: 6px;
+  margin: 6px 0;
+  background: var(--hover);
+}
+
+.w80 { width: 80%; }
+.w50 { width: 50%; }
+
+@keyframes shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.06), transparent);
+  background-size: 400px 100%;
+  animation: shimmer 1.2s infinite;
+}
